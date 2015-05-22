@@ -18,8 +18,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 /**
- * Refactored the email send logic into a class so we can unit test the
- * EmailDeliveryRecipientAction class without actually sending an email.
+ * EmailSender class handles the work of sending an email
  *
  * @author rweaver
  */
@@ -256,6 +255,9 @@ public class EmailSender {
             }
         } catch (MessagingException ex) {
             Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, "Error connecting", ex);
+        } catch (IllegalStateException ex){
+            Logger.getLogger(EmailSender.class.getName()).log(Level.WARNING, "Already connected", ex);
+            connected = true;
         }
         return connected;
     }
